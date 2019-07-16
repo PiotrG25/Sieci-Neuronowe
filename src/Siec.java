@@ -1,11 +1,15 @@
 import java.util.Arrays;
 
 public class Siec {
+    int wejsc;
+    int wyjsc;
     Warstwa [] warstwy;
     int wykonanychTreningow = 0;
 
 
     Siec(int wejsc, int [] neuronyWWarstwie){
+        this.wejsc = wejsc;
+        this.wyjsc = neuronyWWarstwie[neuronyWWarstwie.length - 1];
         warstwy = new Warstwa[neuronyWWarstwie.length];
 
         warstwy[0] = new Warstwa(wejsc, neuronyWWarstwie[0]);
@@ -43,7 +47,6 @@ public class Siec {
 
 
     void trenuj(ZestawTreningowy [] zestawy, int ile){
-        System.out.println("Koszt przed: " + kosztDlaZestawuZestawow(zestawy));
         wykonanychTreningow += ile;
 
         for(; ile > 0; ile--){
@@ -73,11 +76,7 @@ public class Siec {
 
             //zmiana zmiennej
             zmienWartosciWagIB(zestawy.length);
-
-
         }
-
-        System.out.println("Koszt clakowity po " + wykonanychTreningow + " treningach: " + kosztDlaZestawuZestawow(zestawy) + "\n");
     }
 
 
@@ -112,11 +111,13 @@ public class Siec {
         for(int i = 0; i < warstwy.length; i++){
             System.out.println("Warstwa " + i);
             for(int j = 0; j < warstwy[i].neurony.length; j++){
-                System.out.println("\tNeuron " + j + " wagi i b");
+                System.out.println("\tNeuron " + j + ": ");
+                System.out.println("\t\twagi: ");
                 for(int k = 0; k < warstwy[i].neurony[j].wagi.length; k++){
-                    System.out.print("\t" + warstwy[i].neurony[j].wagi[k] + ", ");
+                    System.out.println(String.format("\t\t\t%10.5f", warstwy[i].neurony[j].wagi[k]));
                 }
-                System.out.println(warstwy[i].neurony[j].b);
+                System.out.println("\t\tb: ");
+                System.out.println(String.format("\t\t\t%10.5f",warstwy[i].neurony[j].b));
             }
         }
     }
