@@ -1,3 +1,5 @@
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Arrays;
 
 public class Siec {
@@ -106,6 +108,46 @@ public class Siec {
     }
 
 
+    void zapiszDoPliku(String nazwa, ZestawTreningowy [] zestawy)throws IOException {
+        FileWriter fw = new FileWriter(nazwa);
+        String newLine = System.getProperty("line.separator");
+
+        //struktura sieci
+        fw.write("" + wejsc);
+        for(int i = 0; i < warstwy.length; i++){
+            fw.write(" " +warstwy[i].neurony.length);
+        }
+        fw.write(newLine);
+        fw.write(newLine);
+        fw.write(newLine);
+
+        //Warstwy Wagi b
+        for(int i = 0; i < warstwy.length; i++){
+            for(int j = 0; j < warstwy[i].neurony.length; j++){
+                for(int k = 0; k < warstwy[i].neurony[j].wagi.length; k++){
+                    fw.write(warstwy[i].neurony[j].wagi[k] + newLine);
+                }
+                fw.write(warstwy[i].neurony[j].b + newLine);
+                fw.write(newLine);
+            }
+        }
+        fw.write(newLine);
+
+        //Zestawy treningowe
+        fw.write("" + zestawy.length);
+        fw.write(newLine);
+        for(int i = 0; i < zestawy.length; i++){
+            for(int j = 0; j < zestawy[i].wejscia.length; j++){
+                fw.write(zestawy[i].wejscia[j] + " ");
+            }
+            for(int j = 0; j < zestawy[i].oczekiwaneWyjscia.length; j++){
+                fw.write(zestawy[i].oczekiwaneWyjscia[j] + " ");
+            }
+            fw.write(newLine);
+        }
+
+        fw.close();
+    }
 
     void wydrukujSiec(){
         for(int i = 0; i < warstwy.length; i++){

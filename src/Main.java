@@ -1,4 +1,5 @@
 
+import java.io.IOException;
 import java.util.*;
 
 public class Main {
@@ -37,8 +38,8 @@ public class Main {
                 "7 - trenuj\n" +
                 "8 - wyjscie dla podanego wejscia\n" +
                 "9 - drukuj siec\n" +
-//                "10 - zapis do pliku\n" +
-//                "11 - wygeneruj z pliku\n" +
+                "10 - zapisz do pliku siec i zestawy treningowe\n" +
+//                "11 - wygeneruj z pliku siec i zestawy treningowe\n" +
                 "" +
                 "" +
                 "0 - koniec\n" +
@@ -93,6 +94,18 @@ public class Main {
                     //todo dodaj zestaw treningowy
                     break;
                 case 7:
+                    if(zestawy[0].wejscia.length != siec.wejsc){
+                        System.err.println("Nie mozna wykonac treningu");
+                        System.err.println("ilosc wejsc zestawu treningowego: " + zestawy[0].wejscia.length);
+                        System.err.println("ilosc wejsc sieci: " + siec.wejsc);
+                        break;
+                    }
+                    if(zestawy[0].oczekiwaneWyjscia.length != siec.wyjsc){
+                        System.err.println("Nie mozna wykonac treningu");
+                        System.err.println("ilosc wyjsc zestawu treningowego: " + zestawy[0].oczekiwaneWyjscia.length);
+                        System.err.println("ilosc wyjsc sieci: " + siec.wyjsc);
+                        break;
+                    }
                     System.out.print("Podaj ile razy wykonać trening: ");
                     int ile = sc.nextInt();
                     System.out.println("Kost przed: " + siec.kosztDlaZestawuZestawow(zestawy));
@@ -115,7 +128,12 @@ public class Main {
                     siec.wydrukujSiec();
                     break;
                 case 10:
-                    //todo zapis do pliku
+                    System.out.println("Podaj nazwe pliku do ktorego zapisac");
+                    try {
+                        siec.zapiszDoPliku(sc.next(), zestawy);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     break;
                 case 11:
                     //todo wygeneruj z pliku

@@ -7,9 +7,9 @@ public class Warstwa {
         for(int i = 0; i < neuronow; i++){
             double [] tab = new double [wejsc];
             for(int j = 0; j < tab.length; j++){
-                tab[j] = 1;
+                tab[j] = 0;
             }
-            neurony[i] = new Neuron(tab, 1);
+            neurony[i] = new Neuron(tab, 0);
         }
     }
     //todo Konstruktor warstwy przyjmujacy zadane wartosci wagi i wyrazow wolnych
