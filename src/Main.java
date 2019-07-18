@@ -1,4 +1,5 @@
 
+import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
@@ -39,7 +40,7 @@ public class Main {
                 "8 - wyjscie dla podanego wejscia\n" +
                 "9 - drukuj siec\n" +
                 "10 - zapisz do pliku siec i zestawy treningowe\n" +
-//                "11 - wygeneruj z pliku siec i zestawy treningowe\n" +
+                "11 - wygeneruj z pliku siec i zestawy treningowe\n" +
                 "" +
                 "" +
                 "0 - koniec\n" +
@@ -136,7 +137,19 @@ public class Main {
                     }
                     break;
                 case 11:
-                    //todo wygeneruj z pliku
+                    System.out.println("Dostepne pliki:");
+                    File folder = new File("sieci");
+                    File[] listOfFiles = folder.listFiles();
+                    for(File f : listOfFiles){
+                        if(f.getName().contains(".txt")){
+                            System.out.println(f.getName());
+                        }
+                    }
+                    try{
+                        zestawy = siec.generujZPliku(sc.next());
+                    }catch (IOException e){
+                        e.printStackTrace();
+                    }
                     break;
                 case 0:
                     kontynuuj = false;

@@ -1,6 +1,7 @@
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Arrays;
+import java.util.Scanner;
 
 public class Siec {
     int wejsc;
@@ -9,17 +10,20 @@ public class Siec {
     int wykonanychTreningow = 0;
 
 
-    Siec(int wejsc, int [] neuronyWWarstwie){
+    Siec(int wejsc, int [] neuronowWWarstwie){
         this.wejsc = wejsc;
-        this.wyjsc = neuronyWWarstwie[neuronyWWarstwie.length - 1];
-        warstwy = new Warstwa[neuronyWWarstwie.length];
+        this.wyjsc = neuronowWWarstwie[neuronowWWarstwie.length - 1];
 
+        ustawWarstwy(neuronowWWarstwie);
+    }
+
+    void ustawWarstwy(int [] neuronyWWarstwie){
+        warstwy = new Warstwa[neuronyWWarstwie.length];
         warstwy[0] = new Warstwa(wejsc, neuronyWWarstwie[0]);
         for(int i = 1; i < warstwy.length; i++){
             warstwy[i] = new Warstwa(neuronyWWarstwie[i - 1], neuronyWWarstwie[i]);
         }
     }
-
 
     double [] wyjscieSieci(double [] wejscia){
         double [] wyjscie = warstwy[0].wektorWyjscia(wejscia);
@@ -109,10 +113,12 @@ public class Siec {
 
 
     void zapiszDoPliku(String nazwa, ZestawTreningowy [] zestawy)throws IOException {
-        FileWriter fw = new FileWriter(nazwa);
-        String newLine = System.getProperty("line.separator");
+        FileWriter fw = new FileWriter("sieci/" + nazwa);
+        String newLine = System.lineSeparator();
 
         //struktura sieci
+        fw.write("" + warstwy.length);
+        fw.write(newLine);
         fw.write("" + wejsc);
         for(int i = 0; i < warstwy.length; i++){
             fw.write(" " +warstwy[i].neurony.length);
@@ -147,6 +153,50 @@ public class Siec {
         }
 
         fw.close();
+    }
+    ZestawTreningowy [] generujZPliku(String nazwa)throws IOException{
+        File plik = new File("sieci/" + nazwa);
+        Scanner fr = new Scanner(plik);
+
+        //Struktura sieci
+        int [] neuronowWWarstwie = new int [Integer.parseInt(fr.next())];
+
+
+        int wejsc = Integer.parseInt(fr.next());
+        for(int i = 0; i < neuronowWWarstwie.length; i++){
+            neuronowWWarstwie[i] = Integer.parseInt(fr.next());
+        }
+
+        //konstruktor
+        this.wejsc = wejsc;
+        this.wyjsc = neuronowWWarstwie[neuronowWWarstwie.length - 1];
+        ustawWarstwy(neuronowWWarstwie);
+
+        //wagi i b-y
+        for(int i = 0; i < warstwy.length; i++){
+            for(int j = 0; j < warstwy[i].neurony.length; j++){
+                for(int k = 0; k < warstwy[i].neurony[j].wagi.length; k++){
+                    warstwy[i].neurony[j].wagi[k] = Double.parseDouble(fr.next());
+                }
+                warstwy[i].neurony[j].b = Double.parseDouble(fr.next());
+            }
+        }
+
+        //Zestawy treningowe
+        ZestawTreningowy [] zestawy = new ZestawTreningowy[Integer.parseInt(fr.next())];
+        for(int i = 0; i < zestawy.length; i++){
+            zestawy[i] = new ZestawTreningowy(new double[this.wejsc], new double[this.wyjsc]);
+        }
+        for(int i = 0; i < zestawy.length; i++){
+            for(int j = 0; j < this.wejsc; j++){
+                zestawy[i].wejscia[j] = Double.parseDouble(fr.next());
+            }
+            for(int j = 0; j < this.wyjsc; j++){
+                zestawy[i].oczekiwaneWyjscia[j] = Double.parseDouble(fr.next());
+            }
+        }
+
+        return zestawy;
     }
 
     void wydrukujSiec(){
