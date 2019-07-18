@@ -7,7 +7,6 @@ public class Siec {
     int wejsc;
     int wyjsc;
     Warstwa [] warstwy;
-    int wykonanychTreningow = 0;
 
 
     Siec(int wejsc, int [] neuronowWWarstwie){
@@ -52,8 +51,7 @@ public class Siec {
 
 
 
-    void trenuj(ZestawTreningowy [] zestawy, int ile){
-        wykonanychTreningow += ile;
+    void trenuj(ZestawTreningowy [] zestawy, int ile, double dlKroku){
 
         for(; ile > 0; ile--){
 
@@ -81,7 +79,7 @@ public class Siec {
             }
 
             //zmiana zmiennej
-            zmienWartosciWagIB(zestawy.length);
+            zmienWartosciWagIB(dlKroku, zestawy.length);
         }
     }
 
@@ -105,9 +103,9 @@ public class Siec {
         }
     }
 
-    void zmienWartosciWagIB(int mianownik){
+    void zmienWartosciWagIB(double dlKroku, int mianownik){
         for(Warstwa w : warstwy){
-            w.zmienWartosciWagIB(mianownik);
+            w.zmienWartosciWagIB(dlKroku, mianownik);
         }
     }
 

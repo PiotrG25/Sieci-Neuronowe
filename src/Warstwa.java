@@ -59,9 +59,10 @@ public class Warstwa {
         }
     }
 
-    void zmienWartosciWagIB(int mianownik){
+    void zmienWartosciWagIB(double dlKroku, int mianownik){
         for(Neuron n : neurony){
-            n.zmienWartosciWagIB(mianownik);
+            if(Math.random() > 0.5) // sposob na uniknieci minimow lokalnych
+            n.zmienWartosciWagIB(dlKroku, mianownik);
         }
     }
 }

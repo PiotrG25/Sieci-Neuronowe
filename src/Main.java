@@ -11,6 +11,11 @@ public class Main {
         ZestawTreningowy [] zestawy = new ZestawTreningowy [1];
         int [] _1 = {1};
         Siec siec = new Siec(2, _1);
+        try {
+            zestawy = siec.generujZPliku("Siec2-1.txt");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 /*
         //Zestawy treningowe dla sieci symulujacej bramę logiczna AND
         double [] _00 = {0, 0}, _01 = {0, 1}, _10 = {1, 0}, _11 = {1, 1}, _0 = {0}, _1 = {1};
@@ -50,7 +55,7 @@ public class Main {
         System.out.println(menu);
         do{
 
-            System.out.println("Twoj wybor(1 - menu): ");
+            System.out.print("Twoj wybor(1 - menu): ");
             b = sc.nextByte();
 
             switch (b){
@@ -109,8 +114,10 @@ public class Main {
                     }
                     System.out.print("Podaj ile razy wykonać trening: ");
                     int ile = sc.nextInt();
+                    System.out.print("Podaj dlugosc kroku: ");
+                    double dlKroku = sc.nextDouble();
                     System.out.println("Kost przed: " + siec.kosztDlaZestawuZestawow(zestawy));
-                    siec.trenuj(zestawy, ile);
+                    siec.trenuj(zestawy, ile, dlKroku);
                     System.out.println("Koszt po: " + siec.kosztDlaZestawuZestawow(zestawy));
                     break;
                 case 8:

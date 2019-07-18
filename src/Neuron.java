@@ -79,10 +79,10 @@ public class Neuron {
         sumaPochodnychPoB = 0;
     }
 
-    void zmienWartosciWagIB(int mianownik){
+    void zmienWartosciWagIB(double dlKroku, int mianownik){
         for(int i = 0; i < wagi.length; i++){
-            wagi[i] -= sumyPochodnychPoWagach[i] / mianownik;
+            wagi[i] -= dlKroku * sumyPochodnychPoWagach[i] / mianownik;
         }
-        b -= sumaPochodnychPoB / mianownik;
+        b -= dlKroku * sumaPochodnychPoB / mianownik;
     }
 }
